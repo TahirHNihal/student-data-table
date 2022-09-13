@@ -1,0 +1,91 @@
+
+<link rel="stylesheet" href="/css/createPage.css">
+<div class="container-xl px-4 mt-4">
+
+    <div class="card-header align-middle d-flex justify-content-between">
+        <h3 >Update <%= student.name %>  Data</h3>
+        <a class="common-btn" href="/"><i class="fa-solid fa-arrow-left"></i> Back</a>
+    </div>
+    <hr class="mt-0 mb-4">
+<form action="/update/<%= student.id %>" method="POST" enctype="multipart/form-data">
+    <div class="container-xl px-4 mt-4">
+        
+        <hr class="mt-0 mb-4">
+        <div class="row">
+            <div class="col-xl-4">
+                <!-- Profile picture card-->
+                <div class="card mb-4 mb-xl-0">
+                    <div class="card-header">Profile Picture</div>
+
+                    <div class="card-body text-center my-3">
+                        <br>
+                        <img class="preview_profile img-account-profile rounded-circle mb-2" src="" alt="">
+                        <br>
+
+                        <div class="preloaded_profile">
+                            <label for="upload_student_photo">
+                            <img class="img-account-profile rounded-circle mb-2" src="/images/students_image/<%= student.photo %>" alt="">
+                        </label>
+                        </div>
+                        
+
+                        <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
+                        
+                        <input name="student_profile" type="file" class="common-btn"  id="upload_student_photo" multiple>  
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-xl-8">
+                <!-- Account details card-->
+            <div class="card mb-4">
+                <div class="card-header">Account Details</div>
+                <div class="card-body">
+
+                        <div class="my-3">
+                            <label for="name">Name</label>
+                            <input name="name" value="<%= student.name %>" type="text" class="form-control">
+                        </div>
+
+                        <div class="my-3">
+                            <label for="email">Email</label>
+                            <input name="email" value="<%= student.email %>" type="text" class="form-control">
+                        </div>
+
+                        <div class="my-3">
+                            <label for="cell">Cell</label>
+                            <input name="cell" value="<%= student.cell %>" type="text" class="form-control">
+                        </div>
+
+                        <div class="my-3">
+                            <label for="location">Location</label>
+                            <select name="location" class="form-control">
+                                <option value="">-select-</option>
+                                <option <% if (student.location == "Dhaka") { %> selected <% } %> value="Dhaka">Dhaka</option>
+                                <option <% if (student.location == "Mymensingh") { %> selected <% } %> value="Mymensingh">Mymensingh</option>
+                                <option <% if (student.location == "Chittagong") { %> selected <% } %> value="Chittagong">Chittagong</option>
+                                <option <% if (student.location == "Sylhet") { %> selected <% } %> value="Sylhet">Sylhet</option>
+                                <option <% if (student.location == "Barishal") { %> selected <% } %> value="Barishal">Barishal</option>
+                                <option <% if (student.location == "Khulna") { %> selected <% } %> value="Khulna">Khulna</option>
+                                <option <% if (student.location == "Rajshahi") { %> selected <% } %> value="Rajshahi">Rajshahi</option>
+                                <option <% if (student.location == "Rangpur") { %> selected <% } %> value="Rangpur">Rangpur</option>
+                            </select>
+                        </div>
+
+
+                        <div class="my-3">
+                            <input class="common-btn w-100" type="submit" value="Update Now">
+                        </div>
+                        
+                    
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+    </div>
+</div>
+
+<!-- //////////////////////////////////////////////// -->
