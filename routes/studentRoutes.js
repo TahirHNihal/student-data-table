@@ -30,6 +30,8 @@ const studentPhotoMulter = multer({
 
 //Routes
 router.get("/", allStudentPage);
+router.get("/unverified", unverifiedStudentPage);
+
 router.get("/create", createStudentPage);
 router.post("/create", studentPhotoMulter, studentDataStore);
 
@@ -38,8 +40,6 @@ router.post("/update/:id", studentPhotoMulter, updateStudent);
 
 router.get("/delete/:id", deleteStudent);
 router.get("/:id", singleStudentPage);
-
-router.get("/unverified", unverifiedStudentPage);
 
 //Export Modules
 module.exports = router;

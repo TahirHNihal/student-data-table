@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
 const { readFileSync, writeFileSync } = require("fs");
+const sendMail = require("../utility/sendMail");
 
 //All Student Page
 const allStudentPage = (req, res) => {
@@ -9,8 +10,10 @@ const allStudentPage = (req, res) => {
     readFileSync(path.join(__dirname, "../db/student.json"))
   );
 
+  const isVerify = students.filter((data) => data.isVerified == true);
+
   res.render("student/index", {
-    students,
+    students: isVerify,
   });
 };
 
@@ -31,7 +34,6 @@ const singleStudentPage = (req, res) => {
 
   //Find & Edit Id
   const student = students.find((data) => data.id == id);
-  console.log(student);
 
   res.render("student/show", {
     student: student,
@@ -47,11 +49,13 @@ const studentDataStore = (req, res) => {
 
   //Get All Data
   const { name, photo, email, cell, location } = req.body;
+
   //Get Last Id
   let last_id = 1;
   if (students.length > 0) {
     last_id = students[students.length - 1].id + 1;
   }
+  const token = Date.now() + "_" + Math.floor(Math.random() * 1000000);
 
   //Add New Student Data
   students.push({
@@ -61,10 +65,14 @@ const studentDataStore = (req, res) => {
     cell: cell,
     location: location,
     photo: req.file ? req.file.filename : "avatar.png",
+    isVerified: false,
+    token: token,
   });
 
-  //Now Write Data to json db
-  writeFileSync(
+  sendMail(email, "Verify Account", name);
+
+  // Now Write Data to json db
+   writeFileSync(
     path.join(__dirname, "../db/student.json"),
     JSON.stringify(students)
   );
@@ -142,16 +150,17 @@ const updateStudent = (req, res) => {
 };
 
 //Unverified Student Page
-const unverifiedStudentPage = (req, res)=>{
+const unverifiedStudentPage = (req, res) => {
   //All Students Data
   const students = JSON.parse(
     readFileSync(path.join(__dirname, "../db/student.json"))
   );
+  const isUnverify = students.filter((data) => data.isVerified == false);
 
   res.render("student/unverified", {
-    students,
+    students: isUnverify,
   });
-}
+};
 
 //Export Modules
 module.exports = {
@@ -162,5 +171,5 @@ module.exports = {
   studentDataStore,
   deleteStudent,
   updateStudent,
-  unverifiedStudentPage
+  unverifiedStudentPage,
 };

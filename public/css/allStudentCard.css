@@ -62,7 +62,9 @@ img {
     }
     
     .infos{}
-    
+    a{
+      color: #000;
+    }
     .name {
     margin-bottom: 1rem;
     color: #000;
