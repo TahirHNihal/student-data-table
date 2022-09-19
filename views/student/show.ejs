@@ -17,11 +17,14 @@
                 <div class="m-b-25">
 
                   <% if (student.photo == "avatar.png") { %>
-                    <img class="profile_show rounded-circle" src="/images/<%= student.photo %>"/>
-
+                    <img class="avatar" src="/images/<%= student.photo %>" />
+    
                     <% } else { %>
-                        <img class="profile_show rounded-circle" src="/images/students_image/<%= student.photo %>"/>
-                <% } %>
+                    <img
+                      class="avatar"
+                      src="/images/students_image/<%= student.photo %>"
+                    />
+                    <% } %>
 
                 </div>
                 <h6 class="f-w-600"><%= student.name %> </h6>

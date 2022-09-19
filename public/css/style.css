@@ -18,6 +18,9 @@ a {
   width: auto;
   height: auto;
 }
+.btn{
+  color: #fff !important;
+}
 
 .common-btn {
   color: #fff;
@@ -36,3 +39,4 @@ a {
   background: #ef2d56;
   color: #fff;
 }
+/* =========================== */

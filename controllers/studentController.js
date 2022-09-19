@@ -31,6 +31,7 @@ const singleStudentPage = (req, res) => {
 
   //Find & Edit Id
   const student = students.find((data) => data.id == id);
+  console.log(student);
 
   res.render("student/show", {
     student: student,
@@ -61,7 +62,6 @@ const studentDataStore = (req, res) => {
     location: location,
     photo: req.file ? req.file.filename : "avatar.png",
   });
-  console.log(students);
 
   //Now Write Data to json db
   writeFileSync(
@@ -141,6 +141,17 @@ const updateStudent = (req, res) => {
   res.redirect("/");
 };
 
+//Unverified Student Page
+const unverifiedStudentPage = (req, res)=>{
+  //All Students Data
+  const students = JSON.parse(
+    readFileSync(path.join(__dirname, "../db/student.json"))
+  );
+
+  res.render("student/unverified", {
+    students,
+  });
+}
 
 //Export Modules
 module.exports = {
@@ -151,4 +162,5 @@ module.exports = {
   studentDataStore,
   deleteStudent,
   updateStudent,
+  unverifiedStudentPage
 };

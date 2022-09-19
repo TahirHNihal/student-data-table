@@ -8,6 +8,7 @@ const {
   studentDataStore,
   deleteStudent,
   updateStudent,
+  unverifiedStudentPage,
 } = require("../controllers/studentController");
 const multer = require("multer");
 
@@ -27,7 +28,6 @@ const studentPhotoMulter = multer({
   storage: storage,
 }).single("student_profile");
 
-
 //Routes
 router.get("/", allStudentPage);
 router.get("/create", createStudentPage);
@@ -39,7 +39,7 @@ router.post("/update/:id", studentPhotoMulter, updateStudent);
 router.get("/delete/:id", deleteStudent);
 router.get("/:id", singleStudentPage);
 
-
+router.get("/unverified", unverifiedStudentPage);
 
 //Export Modules
 module.exports = router;
