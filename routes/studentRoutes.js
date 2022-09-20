@@ -9,6 +9,7 @@ const {
   deleteStudent,
   updateStudent,
   unverifiedStudentPage,
+  verifyStudent
 } = require("../controllers/studentController");
 const multer = require("multer");
 
@@ -40,6 +41,7 @@ router.post("/update/:id", studentPhotoMulter, updateStudent);
 
 router.get("/delete/:id", deleteStudent);
 router.get("/:id", singleStudentPage);
+router.get("/unverified/:token", verifyStudent);
 
 //Export Modules
 module.exports = router;

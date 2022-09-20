@@ -41,7 +41,7 @@ const singleStudentPage = (req, res) => {
 };
 
 // Student Data Store
-const studentDataStore = (req, res) => {
+const studentDataStore = async (req, res) => {
   //All Students Data
   const students = JSON.parse(
     readFileSync(path.join(__dirname, "../db/student.json"))
@@ -51,15 +51,15 @@ const studentDataStore = (req, res) => {
   const { name, photo, email, cell, location } = req.body;
 
   //Get Last Id
-  let last_id = 1;
+  let id = 1;
   if (students.length > 0) {
-    last_id = students[students.length - 1].id + 1;
+    id = students[students.length - 1].id + 1;
   }
   const token = Date.now() + "_" + Math.floor(Math.random() * 1000000);
 
   //Add New Student Data
   students.push({
-    id: last_id,
+    id: id,
     name: name,
     email: email,
     cell: cell,
@@ -69,10 +69,10 @@ const studentDataStore = (req, res) => {
     token: token,
   });
 
-  sendMail(email, "Verify Account", name);
+  await sendMail(email, "Verify Account", {name, cell, token, id});
 
   // Now Write Data to json db
-   writeFileSync(
+  writeFileSync(
     path.join(__dirname, "../db/student.json"),
     JSON.stringify(students)
   );
@@ -161,6 +161,29 @@ const unverifiedStudentPage = (req, res) => {
     students: isUnverify,
   });
 };
+//Verify with token
+const verifyStudent = (req, res) => {
+  //All Students Data
+  const students = JSON.parse(
+    readFileSync(path.join(__dirname, "../db/student.json"))
+  );
+
+  const token = req.params.token;
+
+  students[students.findIndex((data) => data.token == token)] = {
+    ...students[students.findIndex((data) => data.token == token)],
+    isVerified: true,
+    token: "",
+  };
+
+  writeFileSync(
+    path.join(__dirname, "../db/student.json"),
+    JSON.stringify(students)
+  );
+
+  //Redirect
+  res.redirect("/");
+};
 
 //Export Modules
 module.exports = {
@@ -172,4 +195,5 @@ module.exports = {
   deleteStudent,
   updateStudent,
   unverifiedStudentPage,
+  verifyStudent,
 };

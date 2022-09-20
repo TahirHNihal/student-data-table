@@ -1,34 +1,17 @@
-const nodemailer = require("nodemailer");
-const dotenv = require("dotenv").config();
-
-//Create a send mail function
-const sendMail = async (to, sub, data={}) => {
-  const transport = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: process.env.EMAIL_PORT,
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
-  });
-
-  await transport.sendMail({
-    from: `"Verify Account" <${process.env.EMAIL_USER}>`,
-    to: to,
-    subject: sub,
-    html:`
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Email Template</title>
-    <link rel="stylesheet"
+    <link
+      rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
       integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
       crossorigin="anonymous"
-      referrerpolicy="no-referrer"/>
+      referrerpolicy="no-referrer"
+    />
 
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Varela+Round&display=swap");
@@ -47,6 +30,15 @@ const sendMail = async (to, sub, data={}) => {
         font-family: "Varela Round", sans-serif;
 
       }
+      .main-wrapper::before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: #6b61fe;
+        z-index: -1;
+        height: 100%;
+        width: 100%;
+      }
       .wrapper {
         background: #fff;
         width: 550px;
@@ -57,7 +49,7 @@ const sendMail = async (to, sub, data={}) => {
         margin: 180px auto;
       }
       .common-btn {
-        color: #fff !important;
+        color: #fff ;
         background: #6b61fe;
         text-align: center;
         padding: 12px 15px;
@@ -68,7 +60,7 @@ const sendMail = async (to, sub, data={}) => {
       }
       .common-btn:hover {
         background: #ef2d56;
-        color: #fff !important;
+        color: #fff;
       }
       .body {
         padding: 20px 0;
@@ -110,7 +102,7 @@ const sendMail = async (to, sub, data={}) => {
         background: #ef2d56;
       }
       .social-menu li a i {
-        color: #fff !important;
+        color: #fff;
         font-size: 16px;
       }
       .social_menu_div p {
@@ -132,12 +124,12 @@ const sendMail = async (to, sub, data={}) => {
         </div>
         <hr />
         <div class="body">
-          <h3>Dear ${data.name},</h3>
+          <h3>Dear Md Mamunur Rahman Mamun,</h3>
           <p>
             You create an account on Dev Tahir. Please click on the button
             bellow to verify your account.
           </p>
-          <a href="http://localhost:5050/unverified/${data.token}" class="common-btn">Verify Now</a>
+          <a href="#" class="common-btn">Verify Now</a>
           <p style="margin-top: 40px">
             If you did't verify your email within 1 hour your account will
             remove. For support
@@ -145,7 +137,7 @@ const sendMail = async (to, sub, data={}) => {
               >devtahirsupport</a
             >
           </p>
-          <p>Your Account Id is ${data.id}</p>
+          <p>Your Account Id is 0124</p>
           <div class="social_menu_div">
             <p>Follow Us On:</p>
             <ul class="social-menu">
@@ -165,11 +157,3 @@ const sendMail = async (to, sub, data={}) => {
     </div>
   </body>
 </html>
-
-    
-    `
-  });
-};
-
-//Exports Module
-module.exports = sendMail;
