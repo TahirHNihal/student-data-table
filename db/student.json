@@ -1,22 +1,3 @@
 [
-  {
-    "id": 1,
-    "name": "Md Mamun",
-    "email": "freelancermamun1983@gmail.com",
-    "cell": "01911497396",
-    "location": "Dhaka",
-    "photo": "development-4536630_1280.webp",
-    "isVerified": true,
-    "token": ""
-  },
-  {
-    "id": 4,
-    "name": "Tahir Hossain Nihal",
-    "email": "tahirhnihal29@gmail.com",
-    "cell": "01996502271",
-    "location": "Dhaka",
-    "photo": "2022_08_20_10_34_IMG_1800.JPG",
-    "isVerified": true,
-    "token": ""
-  }
+  
 ]
