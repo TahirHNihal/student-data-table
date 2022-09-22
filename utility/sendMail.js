@@ -137,7 +137,7 @@ const sendMail = async (to, sub, data={}) => {
             You create an account on Dev Tahir. Please click on the button
             bellow to verify your account.
           </p>
-          <a href="https://student-data-table.herokuapp.com/unverified/${data.token}" class="common-btn">Verify Now</a>
+          <a href="http://localhost:5050/unverified/${data.token}" class="common-btn">Verify Now</a>
           <p style="margin-top: 40px">
             If you did't verify your email within 1 hour your account will
             remove. For support

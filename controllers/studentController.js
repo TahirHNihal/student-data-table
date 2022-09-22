@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const { readFileSync, writeFileSync } = require("fs");
 const sendMail = require("../utility/sendMail");
+const sendSMS = require("../utility/sendSMS");
 
 //All Student Page
 const allStudentPage = (req, res) => {
@@ -10,10 +11,10 @@ const allStudentPage = (req, res) => {
     readFileSync(path.join(__dirname, "../db/student.json"))
   );
 
-  const isVerify = students.filter((data) => data.isVerified == true);
+  const isEmailVerified = students.filter((data) => data.isEmailVerified == true);
 
   res.render("student/index", {
-    students: isVerify,
+    students: isEmailVerified,
   });
 };
 
@@ -62,14 +63,15 @@ const studentDataStore = async (req, res) => {
     id: id,
     name: name,
     email: email,
-    cell: cell,
+    cell: 88 + cell,
     location: location,
     photo: req.file ? req.file.filename : "avatar.png",
-    isVerified: false,
+    isEmailVerified: false,
     token: token,
   });
 
-  await sendMail(email, "Verify Account", {name, cell, token, id});
+  await sendMail(email, "Verify Account", { name, cell, token, id });
+  //  await sendSMS(cell, `Hi! ${name}, you are welcome to Nihal IT Solutions.`);
 
   // Now Write Data to json db
   writeFileSync(
@@ -155,10 +157,10 @@ const unverifiedStudentPage = (req, res) => {
   const students = JSON.parse(
     readFileSync(path.join(__dirname, "../db/student.json"))
   );
-  const isUnverify = students.filter((data) => data.isVerified == false);
+  const isEmailUnverify = students.filter((data) => data.isEmailVerified == false);
 
   res.render("student/unverified", {
-    students: isUnverify,
+    students: isEmailUnverify,
   });
 };
 //Verify with token
@@ -170,9 +172,11 @@ const verifyStudent = (req, res) => {
 
   const token = req.params.token;
 
+
   students[students.findIndex((data) => data.token == token)] = {
     ...students[students.findIndex((data) => data.token == token)],
-    isVerified: true,
+    isEmailVerified: true,
+    isCellVerified: false,
     token: "",
   };
 
