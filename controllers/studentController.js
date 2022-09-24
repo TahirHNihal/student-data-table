@@ -3,6 +3,7 @@ const path = require("path");
 const { readFileSync, writeFileSync } = require("fs");
 const sendMail = require("../utility/sendMail");
 const sendSMS = require("../utility/sendSMS");
+const sendSMSTW = require("../utility/sendSMSTW");
 
 //All Student Page
 const allStudentPage = (req, res) => {
@@ -11,7 +12,9 @@ const allStudentPage = (req, res) => {
     readFileSync(path.join(__dirname, "../db/student.json"))
   );
 
-  const isEmailVerified = students.filter((data) => data.isEmailVerified == true);
+  const isEmailVerified = students.filter(
+    (data) => data.isEmailVerified == true
+  );
 
   res.render("student/index", {
     students: isEmailVerified,
@@ -57,21 +60,24 @@ const studentDataStore = async (req, res) => {
     id = students[students.length - 1].id + 1;
   }
   const token = Date.now() + "_" + Math.floor(Math.random() * 1000000);
+  const otp = Math.floor(Math.random() * 1000000).toString();
 
   //Add New Student Data
   students.push({
     id: id,
     name: name,
     email: email,
-    cell: 88 + cell,
+    cell: cell,
     location: location,
     photo: req.file ? req.file.filename : "avatar.png",
     isEmailVerified: false,
     token: token,
+    otp: otp,
   });
 
+  // await sendSMS(cell, `Hi ${name}, Please verify your account. Your OTP is ${otp}`);
   await sendMail(email, "Verify Account", { name, cell, token, id });
-  //  await sendSMS(cell, `Hi! ${name}, you are welcome to Nihal IT Solutions.`);
+  sendSMSTW(cell, `Hi ${name}, Please verify your account. Your OTP is ${otp}`);
 
   // Now Write Data to json db
   writeFileSync(
@@ -157,7 +163,9 @@ const unverifiedStudentPage = (req, res) => {
   const students = JSON.parse(
     readFileSync(path.join(__dirname, "../db/student.json"))
   );
-  const isEmailUnverify = students.filter((data) => data.isEmailVerified == false);
+  const isEmailUnverify = students.filter(
+    (data) => data.isEmailVerified == false
+  );
 
   res.render("student/unverified", {
     students: isEmailUnverify,
@@ -171,7 +179,6 @@ const verifyStudent = (req, res) => {
   );
 
   const token = req.params.token;
-
 
   students[students.findIndex((data) => data.token == token)] = {
     ...students[students.findIndex((data) => data.token == token)],
